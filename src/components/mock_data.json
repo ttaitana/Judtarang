@@ -1,0 +1,71 @@
+{
+    "1": {
+        "event_name": "WipWup Camp",
+        "schedle": [
+            {
+                "date": "December 18",
+                "events": [
+                    {
+                        "start_time": "9:00 am",
+                        "duration": 1,
+                        "title": "เรียกรายงานตัว",
+                        "place": "โถงคณะ"
+                    },
+                    {
+                        "start_time": "10:00 am",
+                        "duration": 1,
+                        "title": "เปิดงาน",
+                        "place": "โถงคณะ"
+                    },
+                    {
+                        "start_time": "11:00 am",
+                        "duration": 1,
+                        "title": "นำสัมภาระเก็บที่พัก",
+                        "place": "ที่พัก"
+                    },
+                    {
+                        "start_time": "12:00 am",
+                        "duration": 2,
+                        "title": "พักทานอาหารกลางวัน",
+                        "place": "โรงอาหาร"
+                    },
+                    {
+                        "start_time": "2:00 pm",
+                        "duration": 3,
+                        "title": "เริ่มกิจกรรม",
+                        "place": "M23"
+                    }
+                ]
+            },
+            {
+                "date": "December 18",
+                "events": [
+                    {
+                        "start_time": "9:00 am",
+                        "duration": 1,
+                        "title": "Mockup",
+                        "place": "place"
+                    },
+                    {
+                        "start_time": "9:00 am",
+                        "duration": 1,
+                        "title": "Mockup",
+                        "place": "place"
+                    },
+                    {
+                        "start_time": "9:00 am",
+                        "duration": 1,
+                        "title": "Mockup",
+                        "place": "place"
+                    },
+                    {
+                        "start_time": "9:00 am",
+                        "duration": 1,
+                        "title": "Mockup",
+                        "place": "place"
+                    }
+                ]
+            }
+        ]
+    }
+}
