@@ -1,9 +1,27 @@
 import React, { Component } from "react";
 import "../style/main.scss";
 import { Link } from 'react-router-dom'
+import auth from '../firebase'
 
 
 export default class Landing extends Component {
+  constructor() {
+    super();
+    this.state = {
+      currentUser : null
+    }
+  }
+
+  componentDidMount() {
+    auth.onAuthStateChanged((user) => {
+      if (user) {
+        this.setState({
+          currentUser: user,
+        });
+      }
+    });
+  }
+  
   render() {
     return (
       <div className="screen-wrapper">
@@ -19,7 +37,9 @@ export default class Landing extends Component {
               quae doloremque reprehenderit placeat nesciunt.
             </p>
             <div className="buttons">
+            {this.state.currentUser ? (
               <Link to="/schedual" class="button is-black">View your schedle</Link>
+            ) : (null)}
             </div>
           </div>
         </div>

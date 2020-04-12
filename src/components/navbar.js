@@ -2,16 +2,33 @@ import React, { Component } from "react";
 import Logo from "../assets/logo.png";
 import "../style/main.scss";
 import { Link, NavLink } from "react-router-dom";
+import auth from '../firebase'
 
 export default class Navbar extends Component {
   constructor() {
     super();
     this.state = {
-      is_login: false,
+      currentUser: null,
     };
+  }
+  logout = e => {
+    e.preventDefault()
+    auth.signOut().then(response => {
+      this.setState({
+        currentUser: null
+      })
+      window.location.reload();
+    })
   }
 
   componentDidMount() {
+    auth.onAuthStateChanged((user) => {
+      if (user) {
+        this.setState({
+          currentUser: user,
+        });
+      }
+    });
     document.addEventListener("DOMContentLoaded", () => {
       // Get all "navbar-burger" elements
       const $navbarBurgers = Array.prototype.slice.call(
@@ -40,7 +57,7 @@ export default class Navbar extends Component {
     return (
       <nav className="navbar" role="navigation" aria-label="main navigation">
         <div className="navbar-brand">
-          <a className="navbar-item" href="/">
+          <a className="navbar-item" href="/" id="logo-container">
             <img src={Logo} id="nav-logo" />
           </a>
 
@@ -63,10 +80,10 @@ export default class Navbar extends Component {
           <div className="navbar-end">
               <a className="navbar-item">อะไรซักอย่าง</a>
               <a className="navbar-item">เดี๋ยวค่อยคิดอีกที</a>
-              {this.state.is_login ? (
-                <a href="#" className="navbar-item">
+              {this.state.currentUser ? (
+                <p className="navbar-item func-link" onClick={this.logout}>
                   Log out
-                </a>
+                </p>
               ) : (
                 <div className="navbar-end">
                   <NavLink to="/login" activeClassName="navbar-item current" className="navbar-item">

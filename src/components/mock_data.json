@@ -1,6 +1,7 @@
 {
     "1": {
         "event_name": "WipWup Camp",
+        "code" : "ESC2",
         "schedle": [
             {
                 "date": "December 18",
@@ -38,7 +39,7 @@
                 ]
             },
             {
-                "date": "December 18",
+                "date": "December 19",
                 "events": [
                     {
                         "start_time": "9:00 am",
