@@ -14,6 +14,7 @@ class SignupForm extends React.Component {
       con_password: "",
       currentUser: null,
       message: "",
+      username: "",
       length_valid: false,
       redirect: false,
     };
@@ -23,15 +24,15 @@ class SignupForm extends React.Component {
   onChange = (e) => {
     const { name, value } = e.target;
     if (name == "password") {
-      console.log(name + " : " + value.length);
+      // console.log(name + " : " + value.length);
       if (value.length > 5) {
         this.setState({
           length_valid: true,
-        });
+        })
       } else {
         this.setState({
           length_valid: false,
-        });
+        })
       }
     }
 
@@ -42,16 +43,20 @@ class SignupForm extends React.Component {
 
   onSubmit = (e) => {
     e.preventDefault();
-
-    const { email, password, con_password } = this.state;
+    const db = firebase.firestore();
+    const { email, password, con_password, username } = this.state;
     if (con_password != password) {
       this.setState({
-        message: "your password and confirm password does not match",
+        message: "Your password and confirm password does not match",
       });
     } else {
+      // console.log(username)
       auth
         .createUserWithEmailAndPassword(email, password)
-        .then((response) => {
+        .then((response) => {          
+          db.collection('users').doc(response.user.uid).set({
+            username: username
+          })
           auth.signInWithEmailAndPassword(email, password).then((res) => {
             this.setState({
               currentUser: res.user,
@@ -88,7 +93,7 @@ class SignupForm extends React.Component {
     const { redirect } = this.state;
 
     if (redirect) {
-      return <Redirect to="/schedual"/>;
+      return <Redirect to="/events"/>;
     }
     return (
       <div className="mobile-container custom-form">
@@ -108,6 +113,22 @@ class SignupForm extends React.Component {
         </div>
         <hr />
         <form onSubmit={this.onSubmit}>
+        <div className="field">
+            <label class="label">Username</label>
+            <p className="control has-icons-left has-icons-right">
+              <input
+                className="input"
+                type="text"
+                name="username"
+                placeholder="Username"
+                onChange={this.onChange}
+                required
+              />
+              <span className="icon is-small is-left">
+                <i className="fas fa-envelope" />
+              </span>
+            </p>
+          </div>
           <div className="field">
             <label class="label">Email</label>
             <p className="control has-icons-left has-icons-right">
@@ -138,14 +159,24 @@ class SignupForm extends React.Component {
               <span className="icon is-small is-left">
                 <i className="fas fa-lock" />
               </span>
-              {/* <p>
+              <p>
                 {this.state.length_valid ? (
-                  <i class="far fa-check-circle" />
+                  <span>
+                    <i class="far fa-check-circle" />
+                  </span>
                 ) : (
-                  <i class="far fa-circle" />
+                  null
                 )}
+                {this.state.length_valid ? (
+                  null
+                ) : (
+                  <span>
+                    <i class="far fa-circle" />
+                  </span>
+                )}
+                
                 &ensp;Password should be at least 6 characters
-              </p> */}
+              </p>
             </p>
           </div>
           <div className="field">
@@ -180,7 +211,7 @@ class SignupForm extends React.Component {
               <input
                 type="submit"
                 className="button is-fullwidth is-black"
-                value="Login"
+                value="Sign up"
               />
             </div>
             <div className="field">

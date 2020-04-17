@@ -17,7 +17,7 @@ export default class Navbar extends Component {
       this.setState({
         currentUser: null
       })
-      window.location.reload();
+      window.location.href = "/";
     })
   }
 
@@ -78,8 +78,8 @@ export default class Navbar extends Component {
           <div className="navbar-start"></div>
 
           <div className="navbar-end">
-              <a className="navbar-item">อะไรซักอย่าง</a>
-              <a className="navbar-item">เดี๋ยวค่อยคิดอีกที</a>
+              {/* <a className="navbar-item">อะไรซักอย่าง</a>
+              <a className="navbar-item">เดี๋ยวค่อยคิดอีกที</a> */}
               {this.state.currentUser ? (
                 <p className="navbar-item func-link" onClick={this.logout}>
                   Log out

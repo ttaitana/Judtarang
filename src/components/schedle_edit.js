@@ -6,10 +6,10 @@ class LoginForm extends React.Component {
 
     this.state = {
       eventName: "WipWup Camp",
-      activity: "",
-      place: "",
-      start_time: null,
-      duration: 0,
+      activity: "เรียกรายงานตัว",
+      place: "โถงคณะ",
+      start_time: "09:00",
+      duration: 1,
       minutes: 0,
     };
     this.goBack = this.goBack.bind(this);

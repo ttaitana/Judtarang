@@ -25,6 +25,9 @@ mobile {
     // height: 736px;
     // box-shadow: 0px 12px 24px #0004;
 }
+.fa-check-circle{
+    color: hsl(171, 100%, 41%);
+}
 .func-link{
     cursor: pointer;
 }
@@ -251,4 +254,20 @@ a:active {
     font-size: 1.5em;
     color: $w-red !important;
     text-align: right;
+    @media only screen and (max-width: 600px) {
+        display: none !important;
+    }
+}
+
+.add-icon{
+    font-size: 1.5em;
+    color: $w-red !important;
+    text-align: left;
+    @media only screen and (max-width: 600px) {
+        // display: none !important;
+    }
+}
+
+.text-centered{
+    text-align: center;
 }

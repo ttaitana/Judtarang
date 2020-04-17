@@ -76,7 +76,7 @@ class LoginForm extends React.Component {
     const { redirect } = this.state;
 
     if (redirect) {
-      return <Redirect to="/schedual" />;
+      return <Redirect to="/events" />;
     }
     if (this.currentUser) {
       return (

@@ -10,7 +10,6 @@ export default class Schedle extends Component {
       user: "1",
     };
   }
-  
 
   render() {
     return (
@@ -44,11 +43,21 @@ export default class Schedle extends Component {
                           <br />
                           <span className="event-location">{ev.place}</span>
                         </a>
-                        {/* <a href="#" className="column delete-icon">
+                        <a href="#" className="column delete-icon">
                           <i class="far fa-times-circle" />
-                        </a> */}
+                        </a>
                       </li>
                     ))}
+                    <li className="columns">
+                      <a href={'/schedual'} className="column">
+                        <span href="#" className="add-icon">
+                          <i class="fas fa-plus-circle" />
+                        </span>
+                        &ensp;
+                        <span className="event-time">Add more event</span>
+                        &ensp;
+                      </a>
+                    </li>
                   </ul>
                 </li>
               </div>

@@ -1,37 +1,37 @@
 {
     "1": {
         "event_name": "WipWup Camp",
-        "code" : "ESC2",
+        "code" : "ES3C2",
         "schedle": [
             {
                 "date": "December 18",
                 "events": [
                     {
-                        "start_time": "9:00 am",
+                        "start_time": "9:00",
                         "duration": 1,
                         "title": "เรียกรายงานตัว",
                         "place": "โถงคณะ"
                     },
                     {
-                        "start_time": "10:00 am",
+                        "start_time": "10:00",
                         "duration": 1,
                         "title": "เปิดงาน",
                         "place": "โถงคณะ"
                     },
                     {
-                        "start_time": "11:00 am",
+                        "start_time": "11:00",
                         "duration": 1,
                         "title": "นำสัมภาระเก็บที่พัก",
                         "place": "ที่พัก"
                     },
                     {
-                        "start_time": "12:00 am",
+                        "start_time": "12:00",
                         "duration": 2,
                         "title": "พักทานอาหารกลางวัน",
                         "place": "โรงอาหาร"
                     },
                     {
-                        "start_time": "2:00 pm",
+                        "start_time": "14:00",
                         "duration": 3,
                         "title": "เริ่มกิจกรรม",
                         "place": "M23"

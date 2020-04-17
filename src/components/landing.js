@@ -38,7 +38,7 @@ export default class Landing extends Component {
             </p>
             <div className="buttons">
             {this.state.currentUser ? (
-              <Link to="/schedual" class="button is-black">View your schedle</Link>
+              <Link to="/events" class="button is-black">View your schedle</Link>
             ) : (null)}
             </div>
           </div>

@@ -1,5 +1,4 @@
 import React from "react";
-import logo from "./logo.svg";
 import "./App.css";
 import { Route, Switch } from "react-router-dom";
 import Schedle from "./components/schedle";
@@ -8,8 +7,9 @@ import Navbar from "./components/navbar";
 import Login from "./components/login";
 import SignupForm from "./components/signup";
 import Edit from "./components/schedle_edit";
-import { useEffect } from "react";
-import auth from './firebase'
+import AllEvent from './components/allevent'
+import CreateEvent from './components/createEvent'
+
 
 function App() {
   return (
@@ -21,6 +21,8 @@ function App() {
         <Route path="/login" component={Login} />
         <Route path="/signup" component={SignupForm} />
         <Route path="/edit" component={Edit} />
+        <Route path="/events" component={AllEvent}/>
+        <Route path="/creteevent" component={CreateEvent}/>
         {/* <Route component={NotFoundPage} /> */}
       </Switch>
     </div>
