@@ -17,7 +17,7 @@ function App() {
       <Navbar />
       <Switch>
         <Route exact path="/" component={Landing} />
-        <Route path="/schedual" component={Schedle} />
+        <Route path="/schedual" render={props => <Schedle {...props}/>} />
         <Route path="/login" component={Login} />
         <Route path="/signup" component={SignupForm} />
         <Route path="/edit" component={Edit} />

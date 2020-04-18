@@ -1,16 +1,21 @@
 import React from "react";
+import firebase from "firebase";
+
 /* eslint react/prop-types: 0 */
 class LoginForm extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      eventName: "WipWup Camp",
-      activity: "เรียกรายงานตัว",
-      place: "โถงคณะ",
-      start_time: "09:00",
-      duration: 1,
+      eventName: props.location.state.name,
+      activity: "",
+      place: "",
+      start_time: "",
+      duration: 0,
       minutes: 0,
+      action: props.location.state.action,
+      ref_id: props.location.state.ref_id,
+      id: props.location.state.id,
     };
     this.goBack = this.goBack.bind(this);
   }
@@ -25,9 +30,70 @@ class LoginForm extends React.Component {
     });
   };
 
+  async getAll() {
+    const { id } = this.state;
+    const db = firebase.firestore();
+    try{
+    db.collection("sub_event")
+      .doc(id)
+      .get()
+      .then((e) => {
+        this.setState({
+          activity: e.data().activity,
+          place: e.data().place,
+          start_time: e.data().start_time,
+          duration: e.data().duration,
+        });
+      });
+    }catch{
+      //pass
+    }
+  }
+
   onSubmit = (e) => {
-    //   alert(this.state);
+    e.preventDefault();
+    const db = firebase.firestore();
+    const {
+      ref_id,
+      activity,
+      place,
+      start_time,
+      duration,
+      action,
+      id,
+    } = this.state;
+
+    if (action == "add") {
+      db.collection("sub_event")
+        .doc()
+        .set({
+          ref: ref_id,
+          activity: activity,
+          place: place,
+          start_time: start_time,
+          duration: duration,
+        })
+        .then(() => {
+          this.props.history.goBack();
+        });
+    } else if (action == "edit") {
+      db.collection("sub_event")
+        .doc(id)
+        .update({
+          activity: activity,
+          place: place,
+          start_time: start_time,
+          duration: duration,
+        })
+        .then(() => {
+          this.props.history.goBack();
+        });
+    }
   };
+
+  componentDidMount() {
+    this.getAll();
+  }
 
   render() {
     return (

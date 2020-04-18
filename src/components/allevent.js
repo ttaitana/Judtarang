@@ -63,17 +63,24 @@ export default class AllEvent extends React.Component {
       }
     });
   }
+  onDelete = (id) => {
+    let result = window.confirm("Do you want to delete this event?")
+    if(result){
+      const db = firebase.firestore();
+      db.collection('events')
+      .doc(id).delete().then(() => {
+        alert("event deleted");
+        window.location.reload();
+      })
+    }
+  }
 
   render() {
     return (
       <div className="mobile-container">
-        <div className="columns">
-          <div className="column">
-            <Link to="/creteevent">
-              <div className="button">Create Event</div>
-            </Link>
-          </div>
-        </div>
+        <Link to="/creteevent">
+          <div className="button">Create Event</div>
+        </Link>
         {this.state.schedule.length > 0 ? (
           <div className="table-container">
             <table className="table is-striped is-fullwidth">
@@ -90,11 +97,18 @@ export default class AllEvent extends React.Component {
                     <td>{data.title}</td>
                     <td>{data.owner}</td>
                     <td>
-                      <Link to="/schedual">
+                      <Link
+                        to={{
+                          pathname: "/schedual",
+                          state: {
+                            event_id: data.id,
+                          },
+                        }}
+                      >
                         <div className="button is-warning">See Schedule</div>
                       </Link>
                       &ensp;
-                      <div className="button is-danger">Delete</div>
+                      <div className="button is-danger" onClick={() => this.onDelete(data.id)}>Delete</div>
                     </td>
                   </tr>
                 ))}
@@ -103,7 +117,7 @@ export default class AllEvent extends React.Component {
           </div>
         ) : (
           <div class="container text-centered">
-              <p>No data</p>
+            <p>No data</p>
           </div>
         )}
       </div>
