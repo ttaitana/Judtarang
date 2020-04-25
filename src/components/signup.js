@@ -1,8 +1,7 @@
 import React from "react";
 import auth from "../firebase";
 import firebase from "firebase";
-import { Route } from "react-router-dom";
-import {Redirect} from 'react-router-dom'
+import {Redirect, Route} from 'react-router-dom'
 
 class SignupForm extends React.Component {
   constructor(props) {
@@ -74,10 +73,16 @@ class SignupForm extends React.Component {
     }
   };
   popupSignin = (e) => {
+    const db = firebase.firestore();
     let provider = new firebase.auth.GoogleAuthProvider();
     auth
       .signInWithPopup(provider)
       .then((resposnse) => {
+        // console.log(resposnse.user.displayName);
+        
+        db.collection('users').doc(resposnse.user.uid).set({
+          username: resposnse.user.displayName
+        })
         this.setState({ redirect: true });
       })
       .catch((error) => {

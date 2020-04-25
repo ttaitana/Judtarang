@@ -1,7 +1,7 @@
 import React from "react";
 import auth from "../firebase";
 import firebase from "firebase";
-import { Redirect } from "react-router-dom";
+import {Redirect, Route} from 'react-router-dom'
 
 class LoginForm extends React.Component {
   constructor(props) {
@@ -48,10 +48,14 @@ class LoginForm extends React.Component {
   };
 
   popupSignin = (e) => {
+    const db = firebase.firestore();
     let provider = new firebase.auth.GoogleAuthProvider();
     auth
       .signInWithPopup(provider)
       .then((resposnse) => {
+        // db.collection('users').doc(resposnse.user.uid).set({
+        //   username: username
+        // })
         this.setState({ redirect: true });
       })
       .catch((error) => {

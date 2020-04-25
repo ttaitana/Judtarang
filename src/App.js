@@ -9,7 +9,7 @@ import SignupForm from "./components/signup";
 import Edit from "./components/schedle_edit";
 import AllEvent from './components/allevent'
 import CreateEvent from './components/createEvent'
-
+import FindEvents from './components/findevent'
 
 function App() {
   return (
@@ -23,6 +23,7 @@ function App() {
         <Route path="/edit" component={Edit} />
         <Route path="/events" component={AllEvent}/>
         <Route path="/creteevent" component={CreateEvent}/>
+        <Route path="/find" component={FindEvents}/>
         {/* <Route component={NotFoundPage} /> */}
       </Switch>
     </div>

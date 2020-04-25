@@ -22,7 +22,6 @@ export default class AllEvent extends React.Component {
       currentUser: "",
       schedule: [],
     };
-    this.db = firebase.firestore();
   }
 
   async getAll() {
@@ -45,12 +44,14 @@ export default class AllEvent extends React.Component {
         id: inform.id,
         title: inform.data().title,
         owner: inform.data().owner,
+        is_lock: inform.data().is_lock,
+        owner_ref: inform.data().owner_ref
       });
     });
     this.setState({
       schedule: collections,
     });
-    // console.log(collections);
+    console.log(collections);
   }
 
   async componentDidMount() {
@@ -59,21 +60,23 @@ export default class AllEvent extends React.Component {
         this.setState({
           currentUser: user,
         });
-        this.getAll();
       }
+      this.getAll();
     });
   }
   onDelete = (id) => {
-    let result = window.confirm("Do you want to delete this event?")
-    if(result){
+    let result = window.confirm("Do you want to delete this event?");
+    if (result) {
       const db = firebase.firestore();
-      db.collection('events')
-      .doc(id).delete().then(() => {
-        alert("event deleted");
-        window.location.reload();
-      })
+      db.collection("events")
+        .doc(id)
+        .delete()
+        .then(() => {
+          alert("event deleted");
+          window.location.reload();
+        });
     }
-  }
+  };
 
   render() {
     return (
@@ -81,12 +84,16 @@ export default class AllEvent extends React.Component {
         <Link to="/creteevent">
           <div className="button">Create Event</div>
         </Link>
+        <Link to="/find">
+          <div className="button">Find Events</div>
+        </Link>
         {this.state.schedule.length > 0 ? (
           <div className="table-container">
             <table className="table is-striped is-fullwidth">
               <thead>
                 <tr>
                   <th>Event name</th>
+                  <th>is locked</th>
                   <th>owner</th>
                   <th></th>
                 </tr>
@@ -95,6 +102,7 @@ export default class AllEvent extends React.Component {
                 {this.state.schedule.map((data) => (
                   <tr>
                     <td>{data.title}</td>
+                    <td>{data.is_lock ? <i class="fas fa-lock" /> : null}</td>
                     <td>{data.owner}</td>
                     <td>
                       <Link
@@ -108,7 +116,14 @@ export default class AllEvent extends React.Component {
                         <div className="button is-warning">See Schedule</div>
                       </Link>
                       &ensp;
-                      <div className="button is-danger" onClick={() => this.onDelete(data.id)}>Delete</div>
+                      {data.owner_ref == this.state.currentUser.uid ? (
+                        <div
+                          className="button is-danger"
+                          onClick={() => this.onDelete(data.id)}
+                        >
+                          Delete
+                        </div>
+                      ) : null}
                     </td>
                   </tr>
                 ))}

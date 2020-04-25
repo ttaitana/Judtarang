@@ -13,7 +13,8 @@ export default withRouter(
       this.state = {
         is_admin: false,
         user: "1",
-        currentUser: null,
+        currentUser: "",
+
         event_id: props.location.state.event_id,
         event_item: [],
         schedule: [],
@@ -23,8 +24,8 @@ export default withRouter(
       };
     }
 
-    componentDidMount() {
-      auth.onAuthStateChanged((user) => {
+    async componentDidMount() {
+      await auth.onAuthStateChanged((user) => {
         if (user) {
           this.setState({
             currentUser: user,
@@ -45,18 +46,17 @@ export default withRouter(
       } catch {
         data = await db.collection("events").get();
       }
-  try{
-    sche = await db
+      try {
+        sche = await db
           .collection("schedule")
           .where("refEvent", "==", event_id)
           .get();
-  }      
-  catch{
-    sche = []
-  }
-  this.setState({
-    event_item: data.data()
-  })
+      } catch {
+        sche = [];
+      }
+      this.setState({
+        event_item: data.data(),
+      });
 
       let collection = [];
       let subevent_collection = [];
@@ -75,7 +75,7 @@ export default withRouter(
             });
           })
           .then(() => {
-            subevent_collection.sort(this.dateCompair)
+            subevent_collection.sort(this.dateCompair);
             this.setState({
               schedule: collection,
               sub_event: subevent_collection,
@@ -87,7 +87,7 @@ export default withRouter(
       });
     }
 
-    dateCompair = (a, b) => a.data.start_time > b.data.start_time ? 1 : -1
+    dateCompair = (a, b) => (a.data.start_time > b.data.start_time ? 1 : -1);
 
     addDate = () => {
       const db = firebase.firestore();
@@ -105,18 +105,19 @@ export default withRouter(
       }
     };
 
-
     onDelete = (id) => {
-      let result = window.confirm("Do you want to delete this activity?")
-      if(result){
+      let result = window.confirm("Do you want to delete this activity?");
+      if (result) {
         const db = firebase.firestore();
-        db.collection('sub_event')
-        .doc(id).delete().then(() => {
-          alert("event deleted");
-          window.location.reload();
-        })
+        db.collection("sub_event")
+          .doc(id)
+          .delete()
+          .then(() => {
+            alert("event deleted");
+            window.location.reload();
+          });
       }
-    }
+    };
 
     onChange = (e) => {
       const { name, value } = e.target;
@@ -126,7 +127,12 @@ export default withRouter(
     };
 
     render() {
-      let { event_id, event_item, schedule, sub_event } = this.state;
+      let {
+        password,
+        event_item,
+        schedule,
+        sub_event,
+      } = this.state;
       return (
         <mobile>
           {/* <div className="mobile-status-bar">
@@ -138,7 +144,12 @@ export default withRouter(
                 <br />
                 <h1 className="title">{event_item.title}</h1>
                 <br />
-                <h3 className="title is-4">Event code : {event_id}</h3>
+                {event_item.owner_ref == this.state.currentUser.uid ? (
+                  <h3 className="title is-4">
+                    Event password : {event_item.password}
+                  </h3>
+                ) : (null)}
+
                 <br />
                 <br />
                 <input type="date" name="event_date" onChange={this.onChange} />
@@ -161,14 +172,15 @@ export default withRouter(
                               {ev.ref == sch.id ? (
                                 <li className="columns">
                                   <Link
-                                    to={{ pathname: "edit",
-                                    state:{
-                                      name: event_item.title,
-                                      ref_id: sch.id,
-                                      id : ev.id,
-                                      action: 'edit'
-                                    }
-                                   }}
+                                    to={{
+                                      pathname: "edit",
+                                      state: {
+                                        name: event_item.title,
+                                        ref_id: sch.id,
+                                        id: ev.id,
+                                        action: "edit",
+                                      },
+                                    }}
                                     className="column"
                                   >
                                     <span className="event-time">
@@ -183,8 +195,11 @@ export default withRouter(
                                       {ev.data.place}
                                     </span>
                                   </Link>
-                                  <div className="column delete-icon func-link" onClick={() => this.onDelete(ev.id)}>
-                                    <i className="far fa-times-circle"/>
+                                  <div
+                                    className="column delete-icon func-link"
+                                    onClick={() => this.onDelete(ev.id)}
+                                  >
+                                    <i className="far fa-times-circle" />
                                   </div>
                                 </li>
                               ) : null}
@@ -197,7 +212,7 @@ export default withRouter(
                                 state: {
                                   name: event_item.title,
                                   action: "add",
-                                  id:"",
+                                  id: "",
                                   ref_id: sch.id,
                                 },
                               }}

@@ -11,12 +11,16 @@ class LoginForm extends React.Component {
       currentUser: null,
       message: "",
       title: "",
+      password: null,
+      is_lock: "unchecked",
     };
   }
 
   onChange = (e) => {
     const { name, value } = e.target;
-
+    console.log('====================================');
+    console.log(value);
+    console.log('====================================');
     this.setState({
       [name]: value,
     });
@@ -25,7 +29,7 @@ class LoginForm extends React.Component {
   onSubmit = (e) => {
     e.preventDefault();
     const db = firebase.firestore();
-    const { title, currentUser } = this.state;
+    const { title, currentUser, is_lock, password } = this.state;
     let username = "";
     let ref = db.collection("my_collection").doc();
     let myId = ref.id;
@@ -34,17 +38,36 @@ class LoginForm extends React.Component {
       .get()
       .then((e) => (username = e.data().username))
       .then((e) => {
-        db.collection("events")
+        if(is_lock == 'checked'){
+          db.collection("events")
           .doc(myId)
           .set({
             title: title,
             members: [currentUser.uid],
             owner: username,
+            is_lock: true,
+            password:password,
+            owner_ref: currentUser.uid,
+          })
+          .then(() => {
+            window.location.href = "/events";
+          });
+        }else{
+          db.collection("events")
+          .doc(myId)
+          .set({
+            title: title,
+            members: [currentUser.uid],
+            owner: username,
+            is_lock: false,
+            password:'',
             owner_ref: db.doc("users/" + currentUser.uid),
           })
           .then(() => {
             window.location.href = "/events";
           });
+        }
+        
       });
   };
 
@@ -81,6 +104,41 @@ class LoginForm extends React.Component {
               />
             </p>
           </div>
+          <div className="field">
+            <label className="checkbox">
+          {this.state.is_lock == "checked" ? (
+              <input
+                type="checkbox"
+                name="is_lock"
+                onChange={this.onChange}
+                value="unchecked"
+              />
+              ):(
+              <input
+                type="checkbox"
+                name="is_lock"
+                onChange={this.onChange}
+                value="checked"
+              />
+              )}
+              Lock this event
+            </label>
+          </div>
+          {this.state.is_lock == "checked" ? (
+            <div className="field">
+              <label class="label">Password</label>
+              <p className="control">
+                <input
+                  className="input"
+                  type="password"
+                  name="password"
+                  placeholder="Event name"
+                  onChange={this.onChange}
+                  required
+                />
+              </p>
+            </div>
+          ) : null}
 
           <div className="field">
             {/* {this.message ? ( */}
