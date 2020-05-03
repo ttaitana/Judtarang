@@ -127,12 +127,7 @@ export default withRouter(
     };
 
     render() {
-      let {
-        password,
-        event_item,
-        schedule,
-        sub_event,
-      } = this.state;
+      let { password, event_item, schedule, sub_event } = this.state;
       return (
         <mobile>
           {/* <div className="mobile-status-bar">
@@ -145,17 +140,23 @@ export default withRouter(
                 <h1 className="title">{event_item.title}</h1>
                 <br />
                 {event_item.owner_ref == this.state.currentUser.uid ? (
-                  <h3 className="title is-4">
-                    Event password : {event_item.password}
-                  </h3>
-                ) : (null)}
+                  <>
+                    <h3 className="title is-4">
+                      Event password : {event_item.password}
+                    </h3>
 
-                <br />
-                <br />
-                <input type="date" name="event_date" onChange={this.onChange} />
-                <div className="button" onClick={this.addDate}>
-                  Add day
-                </div>
+                    <br />
+                    <br />
+                    <input
+                      type="date"
+                      name="event_date"
+                      onChange={this.onChange}
+                    />
+                    <div className="button" onClick={this.addDate}>
+                      Add day
+                    </div>
+                  </>
+                ) : null}
               </div>
               {schedule.length > 0 ? (
                 <div>
@@ -171,7 +172,9 @@ export default withRouter(
                             <div>
                               {ev.ref == sch.id ? (
                                 <li className="columns">
-                                  <Link
+                                  {event_item.owner_ref ==
+                                  this.state.currentUser.uid ? (
+                                    <Link
                                     to={{
                                       pathname: "edit",
                                       state: {
@@ -195,37 +198,63 @@ export default withRouter(
                                       {ev.data.place}
                                     </span>
                                   </Link>
-                                  <div
-                                    className="column delete-icon func-link"
-                                    onClick={() => this.onDelete(ev.id)}
+                                  ) : (
+                                    <div
+                                    className="column"
                                   >
-                                    <i className="far fa-times-circle" />
+                                    <span className="event-time">
+                                      {ev.data.start_time}
+                                    </span>
+                                    &ensp;
+                                    <span className="event-name">
+                                      {ev.data.activity}
+                                    </span>
+                                    <br />
+                                    <span className="event-location">
+                                      {ev.data.place}
+                                    </span>
                                   </div>
+                                  )}
+                                  
+                                  {event_item.owner_ref ==
+                                  this.state.currentUser.uid ? (
+                                    <div
+                                      className="column delete-icon func-link"
+                                      onClick={() => this.onDelete(ev.id)}
+                                    >
+                                      <i className="far fa-times-circle" />
+                                    </div>
+                                  ) : null}
                                 </li>
                               ) : null}
                             </div>
                           ))}
-                          <li className="columns">
-                            <Link
-                              to={{
-                                pathname: "edit",
-                                state: {
-                                  name: event_item.title,
-                                  action: "add",
-                                  id: "",
-                                  ref_id: sch.id,
-                                },
-                              }}
-                              className="column"
-                            >
-                              <span href="#" className="add-icon">
-                                <i className="fas fa-plus-circle" />
-                              </span>
-                              &ensp;
-                              <span className="event-time">Add more event</span>
-                              &ensp;
-                            </Link>
-                          </li>
+                          {event_item.owner_ref ==
+                          this.state.currentUser.uid ? (
+                            <li className="columns">
+                              <Link
+                                to={{
+                                  pathname: "edit",
+                                  state: {
+                                    name: event_item.title,
+                                    action: "add",
+                                    id: "",
+                                    ref_id: sch.id,
+                                  },
+                                }}
+                                className="column"
+                              >
+                                <span href="#" className="add-icon">
+                                  <i className="fas fa-plus-circle" />
+                                </span>
+                                &ensp;
+                                <span className="event-time">
+                                  Add more event
+                                </span>
+                                &ensp;
+                              </Link>
+                            </li>
+                          ) : null}
                         </ul>
                       </li>
                     </div>
