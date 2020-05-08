@@ -51,7 +51,7 @@ export default class AllEvent extends React.Component {
     this.setState({
       schedule: collections,
     });
-    console.log(collections);
+    // console.log(collections);
   }
 
   async componentDidMount() {

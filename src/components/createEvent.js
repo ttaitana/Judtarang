@@ -18,9 +18,6 @@ class LoginForm extends React.Component {
 
   onChange = (e) => {
     const { name, value } = e.target;
-    console.log('====================================');
-    console.log(value);
-    console.log('====================================');
     this.setState({
       [name]: value,
     });
@@ -74,7 +71,7 @@ class LoginForm extends React.Component {
   componentDidMount() {
     auth.onAuthStateChanged((user) => {
       if (user) {
-        console.log(user);
+        // console.log(user);
         this.setState({
           currentUser: user,
         });

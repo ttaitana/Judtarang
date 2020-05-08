@@ -27,8 +27,6 @@ class LoginForm extends React.Component {
   onSubmit = (e) => {
     e.preventDefault();
     const { email, password } = this.state;
-    console.log(email);
-    console.log(password);
     auth
       .signInWithEmailAndPassword(email, password)
       .then((res) => {
@@ -43,8 +41,6 @@ class LoginForm extends React.Component {
           message: "Your email or password is incorrect, please try again",
         });
       });
-    console.log(this.state.currentUser);
-    console.log(this.state.message);
   };
 
   popupSignin = (e) => {
@@ -59,7 +55,7 @@ class LoginForm extends React.Component {
         this.setState({ redirect: true });
       })
       .catch((error) => {
-        console.log(error);
+        // console.log(error);
         this.setState({
           message: error.message,
         });

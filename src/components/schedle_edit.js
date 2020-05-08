@@ -155,7 +155,7 @@ class LoginForm extends React.Component {
                   />
                 </p>
               </div>
-              <div className="field">
+              {/* <div className="field">
                 <p className="control has-icons-right">
                   <label className="label">ระยะเวลากิจกรรม(นาที)</label>
                   <input
@@ -168,7 +168,7 @@ class LoginForm extends React.Component {
                     onChange={this.onChange}
                   />
                 </p>
-              </div>
+              </div> */}
             </div>
           </div>
           <div className="field">

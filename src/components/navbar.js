@@ -82,6 +82,7 @@ export default class Navbar extends Component {
 
         <div id="navbarBasicExample" className="navbar-menu">
           <div className="navbar-start">
+          {this.state.currentUser ? (
             <NavLink
               to="/events"
               activeClassName="navbar-item current"
@@ -89,6 +90,7 @@ export default class Navbar extends Component {
             >
               Schedule
             </NavLink>
+          ):(null)}
           </div>
 
           <div className="navbar-end">

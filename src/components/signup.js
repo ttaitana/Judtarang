@@ -65,7 +65,6 @@ class SignupForm extends React.Component {
           });
         })
         .catch((error) => {
-          console.log(error);
           this.setState({
             message: error.message,
           });
@@ -86,7 +85,6 @@ class SignupForm extends React.Component {
         this.setState({ redirect: true });
       })
       .catch((error) => {
-        console.log(error);
         this.setState({
           message: error.message,
         });

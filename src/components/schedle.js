@@ -80,9 +80,6 @@ export default withRouter(
               schedule: collection,
               sub_event: subevent_collection,
             });
-            console.log(collection);
-
-            console.log(subevent_collection);
           });
       });
     }

@@ -8,7 +8,9 @@ class FindEvents extends React.Component {
     super();
     this.state = {
       currentUser: "",
+      base:null,
       events: [],
+      search:""
     };
   }
 
@@ -38,8 +40,9 @@ class FindEvents extends React.Component {
     });
     this.setState({
       events: collections,
+      base: collections
     });
-    console.log(collections);
+    // console.log(collections);
   }
 
   joinEvent = (id, lock, password) => {
@@ -62,6 +65,26 @@ class FindEvents extends React.Component {
     // console.log('====================================');
   }
 
+  searchEvent = () => {
+    const {base, search} = this.state
+    let update_events = []
+    base.map((data) => {
+      if(data.title.includes(search)){
+        update_events.push(data)
+      }
+    })
+    this.setState({
+      events: update_events
+    })
+  }
+
+  onChange = (e) => {
+    const { name, value } = e.target;
+    this.setState({
+      [name]: value,
+    });
+  };
+
   async componentDidMount() {
     await auth.onAuthStateChanged((user) => {
       if (user) {
@@ -79,10 +102,10 @@ class FindEvents extends React.Component {
         <div className="mobile-container" id="find-event">
           <div className="columns">
             <div className="column is-11">
-              <input class="input" type="text" placeholder="Event name" />
+              <input class="input" name="search" type="text" onChange={this.onChange} placeholder="Event name" />
             </div>
             <div className="column">
-              <div className="button">Find</div>
+              <div className="button" onClick={this.searchEvent}>Find</div>
             </div>
           </div>
           <div className="container">
